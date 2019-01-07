@@ -1,23 +1,24 @@
 #!/usr/bin/python
-#########################################################################################################################
-#															#
-# Purpose: Python script to gather some stats surrounding Zilliqa mining			 			#
-#															#
-# Script : zilliqastats.py												#
-# Version : 1.1														#
-# Date : 04-01-2019													#
-# Author : therealmko													#
-#															#
-# Version	Date		Major changes										#
-# 0.1		28-12-2018	Initial inception									#
-# 1.0		30-12-2018	First OK version									#
-# 1.1		04-01-2019	Added zilliqa stats option								#
-#															#
-# To Do (if I get around to it):											#
-#															#
-# Notes:														#
-#															#
-#########################################################################################################################
+#################################################################################
+#										#
+# Purpose: Python script to gather some stats surrounding Zilliqa mining	#
+#										#
+# Script : zilliqastats.py							#
+# Version : 1.2									#
+# Date : 07-01-2019								#
+# Author : therealmko								#
+#										#
+# Version	Date		Major changes					#
+# 0.1		28-12-2018	Initial inception				#
+# 1.0		30-12-2018	First OK version				#
+# 1.1		04-01-2019	Added zilliqa stats option			#
+# 1.2           07-01-2019      Some small performance improvements		#
+#										#
+# To Do (if I get around to it):						#
+#										#
+# Notes:									#
+#										#
+#################################################################################
 
 import sys
 import argparse
@@ -150,11 +151,11 @@ def zilliqa_epoch_stats(logname, search_string_reward_received, search_string_re
          for line in file:
             if re.search(search_string_reward_received, line):
                 match_reward_received = line
-            if re.search(search_string_reward_not_received, line):
+            elif re.search(search_string_reward_not_received, line):
                 match_reward_not_received = line
-            if re.search(search_string_pow, line):
+            elif re.search(search_string_pow, line):
                 match_pow = line
-            if re.search(search_string_backup_member, line):
+            elif re.search(search_string_backup_member, line):
                 match_backup_member = line
 
             if match_reward_received != '' or match_reward_not_received != '' and match_pow != '' and match_backup_member != '':
@@ -198,11 +199,11 @@ def main():
       # Parse Zilliqa log to get rewards out
       return_rewards = zilliqa_log_parsing_reward(cli_parms['logname'], search_string_reward_received)
       zilliqa_total(return_rewards, cli_parms['logname'])
-   if cli_parms['option'] == 'daytotal':
+   elif cli_parms['option'] == 'daytotal':
       # Parse Zilliqa log to get rewards out
       return_rewards = zilliqa_log_parsing_reward(cli_parms['logname'], search_string_reward_received)
       zilliqa_daytotal(return_rewards, cli_parms['logname']);
-   if cli_parms['option'] == 'epochstats':
+   elif cli_parms['option'] == 'epochstats':
       # Call stats gathering
       epoch_stats = zilliqa_epoch_stats(cli_parms['logname'], search_string_reward_received, search_string_reward_not_received, search_string_pow, search_string_backup_member)
  
