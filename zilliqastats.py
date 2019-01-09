@@ -1,11 +1,11 @@
-#!/usr/bin/python
+#!/usr/bin/env python
 #################################################################################
 #										#
 # Purpose: Python script to gather some stats surrounding Zilliqa mining	#
 #										#
 # Script : zilliqastats.py							#
-# Version : 1.2									#
-# Date : 07-01-2019								#
+# Version : 1.3									#
+# Date : 09-01-2019								#
 # Author : therealmko								#
 #										#
 # Version	Date		Major changes					#
@@ -13,6 +13,7 @@
 # 1.0		30-12-2018	First OK version				#
 # 1.1		04-01-2019	Added zilliqa stats option			#
 # 1.2           07-01-2019      Some small performance improvements		#
+# 1.3		09-01-2019	Fixed bug related to try statement reading file	#
 #										#
 # To Do (if I get around to it):						#
 #										#
@@ -65,17 +66,12 @@ def cli_options():
 # Function to parse the logs for Zilliwa rewards and return usefull stuff
 def zilliqa_log_parsing_reward(logname, search_string):
    # Read zilliqa logfile and search for rewards
-   try:
-      with open(logname, "r") as file:
-         match_list = []
-         for line in file:
-            if re.search(search_string, line):
-                match_list.append(line)
-      file.close
-
-   except Exception as e:
-      print "{0} ERROR: Occurred during reading file {1}: ({2})".format(file, e)
-      sys.exit(2)
+   with open(logname, "r") as file:
+      match_list = []
+      for line in file:
+         if re.search(search_string, line):
+             match_list.append(line)
+   file.close
 
    # Split strings found containing rewards into variables 
    return_rewards = [] 
@@ -129,7 +125,7 @@ def zilliqa_daytotal(return_rewards, logname):
    reward_date_list.append([reward_date_old, total / 10**12])
 
    # Print results
-   print("\nAmount of Zilliqa received per day as reward, capture by " + logname + ":")
+   print("\nAmount of Zilliqa received per day as reward, captured by " + logname + ":")
 
    for reward_date, reward_total in reward_date_list:
       print("Reward on " + reward_date + ": " + str(reward_total))
@@ -146,35 +142,30 @@ def zilliqa_epoch_stats(logname, search_string_reward_received, search_string_re
    match_backup_member = ''
 
 # Read zilliqa logfile and search for reward stats
-   try:
-      with open(logname, "r") as file:
-         for line in file:
-            if re.search(search_string_reward_received, line):
-                match_reward_received = line
-            elif re.search(search_string_reward_not_received, line):
-                match_reward_not_received = line
-            elif re.search(search_string_pow, line):
-                match_pow = line
-            elif re.search(search_string_backup_member, line):
-                match_backup_member = line
+   with open(logname, "r") as file:
+      for line in file:
+         if re.search(search_string_reward_received, line):
+             match_reward_received = line
+         elif re.search(search_string_reward_not_received, line):
+             match_reward_not_received = line
+         elif re.search(search_string_pow, line):
+             match_pow = line
+         elif re.search(search_string_backup_member, line):
+             match_backup_member = line
 
-            if match_reward_received != '' or match_reward_not_received != '' and match_pow != '' and match_backup_member != '':
-               if match_reward_received != '':
-                  match_reward = match_reward_received
-               else:
-                  match_reward = match_reward_not_received
+         if match_reward_received != '' or match_reward_not_received != '' and match_pow != '' and match_backup_member != '':
+            if match_reward_received != '':
+               match_reward = match_reward_received
+            else:
+               match_reward = match_reward_not_received
 
-               match_list.append([match_reward, match_pow, match_backup_member])
-               match_reward_received = ''
-               match_reward_not_received = ''
-               match_pow = ''
-               match_backup_member = ''
+            match_list.append([match_reward, match_pow, match_backup_member])
+            match_reward_received = ''
+            match_reward_not_received = ''
+            match_pow = ''
+            match_backup_member = ''
 
-      file.close
-
-   except Exception as e:
-      print "{0} ERROR: Occurred during reading file {1}: ({2})".format(file, e)
-      sys.exit(2)
+   file.close
 
    return match_list
 
