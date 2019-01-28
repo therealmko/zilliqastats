@@ -1,11 +1,11 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 #################################################################################
 #										#
 # Purpose: Python script to gather some stats surrounding Zilliqa mining	#
 #										#
-# Script : zilliqastats.py							#
-# Version : 1.3									#
-# Date : 09-01-2019								#
+# Script : zilliqastats.py3							#
+# Version : 1.4									#
+# Date : 28-01-2019								#
 # Author : therealmko								#
 #										#
 # Version	Date		Major changes					#
@@ -14,6 +14,7 @@
 # 1.1		04-01-2019	Added zilliqa stats option			#
 # 1.2           07-01-2019      Some small performance improvements		#
 # 1.3		09-01-2019	Fixed bug related to try statement reading file	#
+# 1.4           28-01-2019      Changed POW searches to match latest build      #
 #										#
 # To Do (if I get around to it):						#
 #										#
@@ -175,7 +176,7 @@ def main():
    # Set some parameters
    search_string_reward_received = '\[REWARD\]\ Got'
    search_string_reward_not_received = 'Got no reward this ds epoch'
-   search_string_pow = 'POW'
+   search_string_pow = 'Storing DS Block Number'
    search_string_backup_member = 'I am backup member'
 
    # Parse the CLI options
