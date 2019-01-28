@@ -1,7 +1,12 @@
 # zilliqastats
 Python script to gather stats from Zilliqa mining logs
 
-Assuming you followed the ZIlliqa mining setup guide here: https://github.com/Zilliqa/Zilliqa/wiki/Mining
+Assuming you followed the Zilliqa mining setup guide here: https://github.com/Zilliqa/Zilliqa/wiki/Mining
+
+There are 2 script versions. One if you have Python version < 3 (default Ubuntu 16.04). The other if you have Python 3.x (default Ubuntu 18.04). Use:
+- Python 2.7 -> zilliqastats.py
+- Python 3.x -> zilliqastats.py3
+
 
 Copy or clone the zilliqastats.py into your "join" directory.
 
